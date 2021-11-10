@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react"
-import { Route, Switch } from "react-router-dom"
-import Index from "../pages/Index"
-import Show from "../pages/Show"
+import { useEffect, useState } from "react";
+import { Route, Switch } from "react-router-dom";
+import Index from "../pages/Index";
+import Show from "../pages/Show";
 
 function Main(props) {
-  const [cheese, setCheese] = useState(null);
+  const [cheeses, setCheeses] = useState(null);
 
-  const URL = "https://cheeseapp1.herokuapp.com/cheese/";
+  const URL = "https://cheeseapp1.herokuapp.com/cheeses/";
 
-  const getCheese = async () => {
+  const getCheeses = async () => {
     const response = await fetch(URL);
     const data = await response.json();
-    setCheese (data);
-  }
+    setCheeses(data);
+  };
 
-  const createCheese = async (cheese) => {
-    // make post request to create Cheese
+  const createCheeses = async (cheese) => {
+    // make post request to create cheeses
     await fetch(URL, {
       method: "post",
       headers: {
@@ -23,23 +23,47 @@ function Main(props) {
       },
       body: JSON.stringify(cheese),
     });
-    // update list of Cheese
-    getCheese();
+    // update list of cheeses
+    getCheeses();
   };
 
-  useEffect(() => getCheese(), []);
+  const updateCheeses = async (cheese, id) => {
+    // make a put request to create cheeses
+    await fetch(URL + id, {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(cheese)
+    })
+    getCheeses()
+  }
+
+  const deleteCheeses = async (id) => {
+    // make the delete request
+    await fetch(URL + id, {
+      method: "delete"
+    })
+    getCheeses()
+  }
+
+
+  useEffect(() => getCheeses(), []);
 
   return (
     <main>
       <Switch>
         <Route exact path="/">
-          <Index cheese={cheese} createCheese={createCheese} />
+          <Index cheeses={cheeses} createcheeses={createCheeses} />
         </Route>
         <Route
-          path="/cheese/:id"
+          path="/cheeses/:id"
           render={(rp) => (
-            <Show
+            <Show 
               {...rp}
+              cheeses={cheeses}
+              updatecheeses={updateCheeses}
+              deletecheeses={deleteCheeses}
             />
           )}
         />
@@ -47,6 +71,7 @@ function Main(props) {
     </main>
   );
 }
+
 
 
 export default Main;

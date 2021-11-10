@@ -14,22 +14,22 @@ function Index(props) {
     setNewForm({ ...newForm, [event.target.name]: event.target.value });
   };
 
-    // handle submit function for form
-    const handleSubmit = (event) => {
-      event.preventDefault();
-      props.createCheese(newForm);
-      setNewForm({
-        name: "",
-        image: "",
-        countryOfOrigin: "",
-      });
-    };
+  // handle submit function for form
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    props.createCheeses(newForm);
+    setNewForm({
+      name: "",
+      image: "",
+      countryOfOrigin: "",
+    });
+  };
 
   // loaded function
   const loaded = () => {
-    return props.cheese.map((cheese) => (
+    return props.cheeses.map((cheese) => (
       <div key={cheese._id} className="cheese">
-        <Link to={`/cheese/${cheese._id}`}><h1>{cheese.name}</h1></Link>
+        <Link to={`/cheeses/${cheese._id}`}><h1>{cheese.name}</h1></Link>
         <img src={cheese.image} alt={cheese.name} />
         <h3>{cheese.countryOfOrigin}</h3>
       </div>
@@ -65,7 +65,7 @@ function Index(props) {
         />
         <input type="submit" value="Create a Cheese" />
       </form>
-      {props.cheese ? loaded() : loading()}
+      {props.cheeses ? loaded() : loading()}
     </section>
   );
 
