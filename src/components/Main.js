@@ -54,7 +54,7 @@ function Main(props) {
     <main>
       <Switch>
         <Route exact path="/">
-          <Index cheeses={cheeses} createcheeses={createCheeses} />
+          <Index cheeses={cheeses} createCheeses={createCheeses} />
         </Route>
         <Route
           path="/cheeses/:id"
